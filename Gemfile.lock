@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/stympy/faker.git
-  revision: d5d22148b4144cfc165ea9b8b8551cec11ba88f7
+  revision: bb7b836e3b7c301b65c2d5f91c7e474a2ca6b2f4
   branch: master
   specs:
     faker (1.9.1)
@@ -58,18 +58,17 @@ GEM
     byebug (10.0.2)
     concurrent-ruby (1.0.5)
     crass (1.0.4)
-    devise (4.4.3)
+    devise (4.5.0)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 4.1.0, < 6.0)
       responders
       warden (~> 1.2.3)
     erubi (1.7.1)
-    fast_jsonapi (1.3)
-      activesupport (>= 4.2)
     ffi (1.9.25)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
+    graphql (1.8.9)
     i18n (1.1.0)
       concurrent-ruby (~> 1.0)
     listen (3.1.5)
@@ -81,7 +80,7 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.7.0)
       mini_mime (>= 0.1.1)
-    marcel (0.3.2)
+    marcel (0.3.3)
       mimemagic (~> 0.3.2)
     method_source (0.9.0)
     mimemagic (0.3.2)
@@ -161,7 +160,7 @@ DEPENDENCIES
   byebug
   devise
   faker!
-  fast_jsonapi
+  graphql
   listen (>= 3.0.5, < 3.2)
   pg (>= 0.18, < 2.0)
   puma (~> 3.11)

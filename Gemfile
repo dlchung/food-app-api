@@ -29,7 +29,8 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'rack-cors'
 
 # Added gems
-gem 'fast_jsonapi'
+# gem 'fast_jsonapi'
+gem 'graphql'
 gem 'devise'
 
 group :development, :test do
