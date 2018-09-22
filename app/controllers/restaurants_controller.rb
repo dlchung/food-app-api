@@ -1,5 +1,6 @@
-class Api::V1::RestaurantsController < ApplicationController
-# class RestaurantsController < ApplicationController
+require 'rest-client'
+
+class RestaurantsController < ApplicationController
   # def index
   #   render json: RestaurantSerializer.new(restaurants).serialized_json
   # end
@@ -23,4 +24,15 @@ class Api::V1::RestaurantsController < ApplicationController
   # def restaurant_params
   #   params.require(:restaurant).permit(:name, :description, :restaurant_type, :street, :city, :state, :zipcode)
   # end
+
+  def nearby
+    api_key = Rails.application.credentials.google[:places]
+    location = params[:location]
+    radius = params[:radius]
+    type = params[:type]
+    url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=#{api_key}&location=#{location}&radius=#{radius}&type=#{type}"
+    response = RestClient.get(url)
+
+    render json: response
+  end
 end

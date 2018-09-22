@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+# source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.3.3'
@@ -29,9 +29,10 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'rack-cors'
 
 # Added gems
-# gem 'fast_jsonapi'
+gem 'fast_jsonapi'
 gem 'graphql'
 gem 'devise'
+gem 'rest-client'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
