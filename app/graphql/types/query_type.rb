@@ -29,4 +29,8 @@ Types::QueryType = GraphQL::ObjectType.define do
   field :allRestaurants, !types[Types::RestaurantType] do
     resolve -> (obj, args, ctx) { Restaurant.all }
   end
+
+  # field :nearbyRestaurants, !types[Types::RestaurantType] do
+  #   resolve -> (obj, args, ctx) { Restaurant.all }
+  # end
 end
