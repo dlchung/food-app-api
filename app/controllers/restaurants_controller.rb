@@ -14,8 +14,6 @@ class RestaurantsController < ApplicationController
   end
 
   def place_details(place_id)
-    # url = "https://maps.googleapis.com/maps/api/geocode/json?place_id=#{place_id}&key=#{GOOGLE_PLACES_API_KEY}"
-    # JSON.parse(RestClient.get(url))
     Geocoder.search(place_id)
   end
 
