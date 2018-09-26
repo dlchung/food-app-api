@@ -35,7 +35,7 @@ gem 'devise'
 gem 'rest-client'
 gem 'geocoder'
 # gem 'yelp', require: 'yelp'
-gem 'yelp-fusion', '0.2.1-beta'
+# gem 'yelp-fusion', '0.2.1-beta'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
