@@ -16,4 +16,5 @@ Types::RestaurantType = GraphQL::ObjectType.define do
   field :google_types, types.String
   field :created_at, !types.String
   field :updated_at, !types.String
+  field :third_party_rating, !types.ID
 end

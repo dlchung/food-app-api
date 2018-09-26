@@ -11,7 +11,7 @@ require 'faker'
 num_users = 50
 
 ## Generate Restaurants
-Restaurant.destroy_all
+# Restaurant.destroy_all
 # num_restaurants = num_users / 2
 # puts "Seeding restaurants..."
 # num_restaurants.times do
@@ -39,3 +39,5 @@ Review.destroy_all
 #   Review.create(user_id: user_id, restaurant_id: restaurant_id, review_text: review_text, review_score: review_score)
 # end
 # puts "Reviews - #{num_reviews} created."
+
+ThirdPartyRating.destroy_all

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_25_205751) do
+ActiveRecord::Schema.define(version: 2018_09_26_190140) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 2018_09_25_205751) do
     t.string "google_lat"
     t.string "google_lng"
     t.string "google_types"
+    t.integer "third_party_rating_id"
   end
 
   create_table "reviews", force: :cascade do |t|
