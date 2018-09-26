@@ -1,6 +1,6 @@
 require 'rest-client'
 
-GOOGLE_PLACES_API_KEY = Rails.application.credentials.google[:places]
+GOOGLE_PLACES_API_KEY = Rails.application.credentials.google[:places][:api_key]
 
 class RestaurantsController < ApplicationController
   def nearby
@@ -21,6 +21,7 @@ class RestaurantsController < ApplicationController
 
   def create_listings(location, radius, type)
     url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=#{GOOGLE_PLACES_API_KEY}&location=#{location}&radius=#{radius}&type=#{type}"
+    puts url
     response = JSON.parse(RestClient.get(url))
     restaurant_data = response["results"]
 
