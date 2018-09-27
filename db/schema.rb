@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 2018_09_26_190140) do
   end
 
   create_table "third_party_ratings", force: :cascade do |t|
-    t.integer "yelp"
+    t.decimal "yelp"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

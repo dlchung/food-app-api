@@ -9,8 +9,19 @@ class RestaurantsController < ApplicationController
     type = params[:type]
 
     restaurants = self.create_listings(location, radius, type)
-    # puts restaurants
+
     render json: restaurants
+  end
+
+  def rating
+    platform = params[:platform]
+    restaurant_id = params[:restaurant_id]
+    restaurant = Restaurant.find(restaurant_id)
+
+    case platform
+    when "yelp"
+      restaurant.set_yelp_rating
+    end
   end
 
   def place_details(place_id)
@@ -19,7 +30,6 @@ class RestaurantsController < ApplicationController
 
   def create_listings(location, radius, type)
     url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=#{GOOGLE_PLACES_API_KEY}&location=#{location}&radius=#{radius}&type=#{type}"
-    puts url
     response = JSON.parse(RestClient.get(url))
     restaurant_data = response["results"]
 
@@ -37,8 +47,7 @@ class RestaurantsController < ApplicationController
         google_lat = place_details.latitude
         google_lng = place_details.longitude
 
-        Restaurant.create_with(name: name, street: street, city: city, state: state, zipcode: zipcode, google_lat: google_lat, google_lng: google_lng)
-        .find_or_create_by(google_places_id: google_places_id)
+        Restaurant.create_with(name: name, street: street, city: city, state: state, zipcode: zipcode, google_lat: google_lat, google_lng: google_lng).find_or_create_by(google_places_id: google_places_id)
       else
         existing_restaurant
       end

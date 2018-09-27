@@ -2,7 +2,7 @@ YELP_API_KEY = Rails.application.credentials.yelp[:api_key]
 
 class Restaurant < ApplicationRecord
   has_many :reviews
-  belongs_to :third_party_rating
+  belongs_to :third_party_rating, required: false
 
   def set_yelp_rating
     rating = ThirdPartyRating.new
