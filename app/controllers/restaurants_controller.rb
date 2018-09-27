@@ -7,8 +7,9 @@ class RestaurantsController < ApplicationController
     location = params[:location]
     radius = params[:radius]
     type = params[:type]
+    keyword = params[:keyword]
 
-    restaurants = self.create_listings(location, radius, type)
+    restaurants = self.create_listings(location, radius, type, keyword)
 
     render json: restaurants
   end
@@ -28,8 +29,8 @@ class RestaurantsController < ApplicationController
     Geocoder.search(place_id)
   end
 
-  def create_listings(location, radius, type)
-    url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=#{GOOGLE_PLACES_API_KEY}&location=#{location}&radius=#{radius}&type=#{type}"
+  def create_listings(location, radius, type, keyword)
+    url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=#{GOOGLE_PLACES_API_KEY}&location=#{location}&radius=#{radius}&type=#{type}&keyword=#{keyword}"
     response = JSON.parse(RestClient.get(url))
     restaurant_data = response["results"]
 
