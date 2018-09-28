@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_26_190140) do
+ActiveRecord::Schema.define(version: 2018_09_28_194059) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 2018_09_26_190140) do
     t.decimal "yelp"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "foursquare"
   end
 
   create_table "users_groups", force: :cascade do |t|
