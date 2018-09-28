@@ -5,11 +5,21 @@ class Restaurant < ApplicationRecord
   belongs_to :third_party_rating, required: false
 
   def set_yelp_rating
-    rating = ThirdPartyRating.new
-    rating.yelp = fetch_yelp_rating
-    rating.save
-    self.third_party_rating = rating
-    self.save
+    rating = ""
+
+    if self.third_party_rating
+      rating = self.third_party_rating
+      puts "RATING EXISTS"
+    else
+      rating = ThirdPartyRating.new
+      rating.yelp = fetch_yelp_rating
+      rating.save
+      self.third_party_rating = rating
+      self.save
+      puts "NEW RATING"
+    end
+
+    rating
   end
 
   private

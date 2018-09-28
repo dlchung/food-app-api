@@ -17,12 +17,10 @@ class RestaurantsController < ApplicationController
   def rating
     platform = params[:platform]
     restaurant_id = params[:restaurant_id]
-    restaurant = Restaurant.find(restaurant_id)
 
-    case platform
-    when "yelp"
-      restaurant.set_yelp_rating
-    end
+    rating = get_restaurant_rating(restaurant_id, platform)
+    # puts "RATING"
+    render json: {"#{platform}Rating": rating[platform]}
   end
 
   def place_details(place_id)
@@ -59,5 +57,16 @@ class RestaurantsController < ApplicationController
     end
 
     restaurants
+  end
+
+  def get_restaurant_rating(id, platform)
+    restaurant = Restaurant.find(id)
+
+    case platform
+      when "yelp"
+        restaurant.set_yelp_rating
+      else
+        0
+    end
   end
 end
