@@ -35,8 +35,11 @@ class RestaurantsController < ApplicationController
     restaurant_data = response["results"]
 
     restaurants = restaurant_data.map do |restaurant|
+      # puts restaurant
       existing_restaurant = Restaurant.find_by(google_places_id: restaurant["place_id"])
+      # puts existing_restaurant
       if !existing_restaurant
+        # puts "DOES NOT EXIST"
         place_data = self.place_details(restaurant["place_id"])
         place_details = place_data.first
         name = restaurant["name"]
@@ -50,6 +53,7 @@ class RestaurantsController < ApplicationController
 
         Restaurant.create_with(name: name, street: street, city: city, state: state, zipcode: zipcode, google_lat: google_lat, google_lng: google_lng).find_or_create_by(google_places_id: google_places_id)
       else
+        # puts "EXISTS"
         existing_restaurant
       end
     end
