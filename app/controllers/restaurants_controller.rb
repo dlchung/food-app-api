@@ -21,17 +21,12 @@ class RestaurantsController < ApplicationController
     rating = get_restaurant_rating(restaurant_id, platform)
 
     json_rating = {"#{platform}Rating": rating[platform]}
-    # json_rating = ""
-    # puts "RATING"
-    # puts json_rating
 
     render json: json_rating
   end
 
   def place_details(place_id)
-    place = Geocoder.search(place_id)
-    # puts place
-    place
+    Geocoder.search(place_id)
   end
 
   def create_listings(location, radius, type, keyword)
@@ -59,6 +54,8 @@ class RestaurantsController < ApplicationController
 
         new_restaurant = Restaurant.create_with(name: name, street: street, city: city, state: state, zipcode: zipcode, google_lat: google_lat, google_lng: google_lng).find_or_create_by(google_places_id: google_places_id)
         third_party_rating = ThirdPartyRating.create
+        third_party_rating.googleplaces = place_details.data["rating"]
+        third_party_rating.save
         new_restaurant.third_party_rating = third_party_rating
         new_restaurant.save
         new_restaurant

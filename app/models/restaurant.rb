@@ -6,24 +6,6 @@ class Restaurant < ApplicationRecord
   has_many :reviews
   belongs_to :third_party_rating, required: false
 
-  # def set_yelp_rating
-  #   rating = ""
-  #
-  #   if self.third_party_rating
-  #     rating = self.third_party_rating
-  #     puts "RATING EXISTS"
-  #   else
-  #     rating = ThirdPartyRating.new
-  #     rating.yelp = fetch_yelp_rating
-  #     rating.save
-  #     self.third_party_rating = rating
-  #     self.save
-  #     puts "NEW RATING"
-  #   end
-  #
-  #   rating
-  # end
-
   def set_third_party_rating(platform)
     rating = ""
 
@@ -58,6 +40,8 @@ class Restaurant < ApplicationRecord
         fetch_yelp_rating
       when "foursquare"
         fetch_foursquare_rating
+      when "googleplaces"
+        fetch_googleplaces_rating
       else
     end
   end
@@ -94,4 +78,10 @@ class Restaurant < ApplicationRecord
     # puts details_response["response"]["venue"]["rating"]
     details_response["response"]["venue"]["rating"]
   end
+
+  def fetch_googleplaces_rating
+    response = Geocoder.search(self.google_places_id).first
+    response.data["rating"]
+  end
+
 end
