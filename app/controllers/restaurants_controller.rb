@@ -54,7 +54,11 @@ class RestaurantsController < ApplicationController
         google_lat = place_details.latitude
         google_lng = place_details.longitude
 
-        Restaurant.create_with(name: name, street: street, city: city, state: state, zipcode: zipcode, google_lat: google_lat, google_lng: google_lng).find_or_create_by(google_places_id: google_places_id)
+        new_restaurant = Restaurant.create_with(name: name, street: street, city: city, state: state, zipcode: zipcode, google_lat: google_lat, google_lng: google_lng).find_or_create_by(google_places_id: google_places_id)
+        third_party_rating = ThirdPartyRating.create
+        new_restaurant.third_party_rating = third_party_rating
+        new_restaurant.save
+        new_restaurant
       else
         # puts "EXISTS"
         existing_restaurant
@@ -66,15 +70,6 @@ class RestaurantsController < ApplicationController
 
   def get_restaurant_rating(id, platform)
     restaurant = Restaurant.find(id)
-    puts restaurant
-
     restaurant.set_third_party_rating(platform)
-
-    # case platform
-    #   when "yelp"
-    #     restaurant.set_yelp_rating
-    #   else
-    #     0
-    # end
   end
 end

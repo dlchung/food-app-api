@@ -86,6 +86,7 @@ class Restaurant < ApplicationRecord
     url = "https://api.foursquare.com/v2/venues/search?client_id=#{FOURSQUARE_CLIENT_ID}&client_secret=#{FOURSQUARE_CLIENT_SECRET}&v=#{v}&ll=#{ll}&intent=#{intent}&limit=#{limit}&name=#{name}"
     response = JSON.parse(RestClient.get url)
     foursquare_id = response["response"]["venues"].first["id"]
+    puts "FOURSQUARE_ID"
     puts foursquare_id
 
     details_url = "https://api.foursquare.com/v2/venues/#{foursquare_id}?client_id=#{FOURSQUARE_CLIENT_ID}&client_secret=#{FOURSQUARE_CLIENT_SECRET}&v=#{v}"
