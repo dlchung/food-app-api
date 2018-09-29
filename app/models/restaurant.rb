@@ -28,14 +28,14 @@ class Restaurant < ApplicationRecord
     rating = ""
 
     if self.third_party_rating
-      puts "RATING OBJ EXISTS"
+      # puts "RATING OBJ EXISTS"
       rating = self.third_party_rating
       if rating[platform]
-        puts "#{platform} RATING EXISTS"
+        # puts "#{platform} RATING EXISTS"
       else
         rating[platform] = fetch_rating(platform)
         rating.save
-        puts "NEW RATING TYPE #{platform}"
+        # puts "NEW RATING TYPE #{platform}"
       end
     else
       rating = ThirdPartyRating.new
@@ -44,7 +44,7 @@ class Restaurant < ApplicationRecord
 
       self.third_party_rating = rating
       self.save
-      puts "NEW RATING OBJECT"
+      # puts "NEW RATING OBJECT"
     end
 
     rating
@@ -86,12 +86,12 @@ class Restaurant < ApplicationRecord
     url = "https://api.foursquare.com/v2/venues/search?client_id=#{FOURSQUARE_CLIENT_ID}&client_secret=#{FOURSQUARE_CLIENT_SECRET}&v=#{v}&ll=#{ll}&intent=#{intent}&limit=#{limit}&name=#{name}"
     response = JSON.parse(RestClient.get url)
     foursquare_id = response["response"]["venues"].first["id"]
-    puts "FOURSQUARE_ID"
-    puts foursquare_id
+    # puts "FOURSQUARE_ID"
+    # puts foursquare_id
 
     details_url = "https://api.foursquare.com/v2/venues/#{foursquare_id}?client_id=#{FOURSQUARE_CLIENT_ID}&client_secret=#{FOURSQUARE_CLIENT_SECRET}&v=#{v}"
     details_response = JSON.parse(RestClient.get details_url)
-    puts details_response["response"]["venue"]["rating"]
+    # puts details_response["response"]["venue"]["rating"]
     details_response["response"]["venue"]["rating"]
   end
 end
