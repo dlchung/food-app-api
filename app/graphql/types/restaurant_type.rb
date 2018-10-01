@@ -16,5 +16,14 @@ Types::RestaurantType = GraphQL::ObjectType.define do
   field :google_types, types.String
   field :created_at, !types.String
   field :updated_at, !types.String
-  field :third_party_rating, !types.ID
+  field :third_party_rating_id, !types.ID
+  field :phone, types.String
+  field :phone_2, types.String
+  field :yelp_url, types.String
+  field :foursquare_url, types.String
+  field :googleplaces_url, types.String
+  field :zomato_url, types.String
+  field :yelp_id, types.String
+  field :foursquare_id, types.String
+  field :zomato_id, types.String
 end

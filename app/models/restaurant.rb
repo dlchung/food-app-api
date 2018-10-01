@@ -103,7 +103,7 @@ class Restaurant < ApplicationRecord
 
   def associate_googleplaces
     response = Geocoder.search(self.google_places_id).first
-    if response.length > 0
+    if response.data.length > 0
     #   self.googleplaces_url = response.data["url"]
     #   self.save
       response.data["rating"]
