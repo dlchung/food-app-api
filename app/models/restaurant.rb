@@ -7,22 +7,26 @@ class Restaurant < ApplicationRecord
   has_many :reviews
   belongs_to :third_party_rating, required: false
 
-  def set_third_party_rating(platform)
+  def set_third_party_rating(platform, force = false)
     rating = ""
 
     if self.third_party_rating
       # puts "RATING OBJ EXISTS"
       rating = self.third_party_rating
-      if rating[platform]
-        # puts "#{platform} RATING EXISTS"
-      else
-        rating[platform] = fetch_rating(platform)
+      if !rating[platform] || force == true
+        rating[platform] = associate_platform(platform)
         rating.save
-        # puts "NEW RATING TYPE #{platform}"
       end
+      # if rating[platform]
+      #   # puts "#{platform} RATING EXISTS"
+      # else
+      #   rating[platform] = associate_platform(platform)
+      #   rating.save
+      #   # puts "NEW RATING TYPE #{platform}"
+      # end
     else
       rating = ThirdPartyRating.new
-      rating[platform] = fetch_rating(platform)
+      rating[platform] = associate_platform(platform)
       rating.save
 
       self.third_party_rating = rating
@@ -35,21 +39,21 @@ class Restaurant < ApplicationRecord
 
   private
 
-  def fetch_rating(platform)
+  def associate_platform(platform)
     case platform
       when "yelp"
-        fetch_yelp_rating
+        associate_yelp
       when "foursquare"
-        fetch_foursquare_rating
+        associate_foursquare
       when "googleplaces"
-        fetch_googleplaces_rating
+        associate_googleplaces
       when "zomato"
-        fetch_zomato_rating
+        associate_zomato
       else
     end
   end
 
-  def fetch_yelp_rating
+  def associate_yelp
     term = self.name.parameterize
     lat = self.google_lat
     lng = self.google_lng
@@ -61,13 +65,17 @@ class Restaurant < ApplicationRecord
     response = JSON.parse(RestClient.get url, headers)
 
     if response["businesses"].length > 0
+      self.yelp_url = response["businesses"].first["url"]
+      self.yelp_id = response["businesses"].first["id"]
+      self.save
+
       response["businesses"].first["rating"]
     else
       0
     end
   end
 
-  def fetch_foursquare_rating
+  def associate_foursquare
     v = "20180928"
     ll = "#{self.google_lat},#{self.google_lng}"
     intent = "match"
@@ -76,28 +84,35 @@ class Restaurant < ApplicationRecord
 
     url = "https://api.foursquare.com/v2/venues/search?client_id=#{FOURSQUARE_CLIENT_ID}&client_secret=#{FOURSQUARE_CLIENT_SECRET}&v=#{v}&ll=#{ll}&intent=#{intent}&limit=#{limit}&name=#{name}"
     response = JSON.parse(RestClient.get url)
-    puts response
+
     if response["response"]["venues"].length > 0
       foursquare_id = response["response"]["venues"].first["id"]
+      self.foursquare_id = foursquare_id
+
 
       details_url = "https://api.foursquare.com/v2/venues/#{foursquare_id}?client_id=#{FOURSQUARE_CLIENT_ID}&client_secret=#{FOURSQUARE_CLIENT_SECRET}&v=#{v}"
       details_response = JSON.parse(RestClient.get details_url)
+      self.foursquare_url = details_response["response"]["venue"]["canonicalUrl"]
+      self.save
+
       details_response["response"]["venue"]["rating"]
     else
       0
     end
   end
 
-  def fetch_googleplaces_rating
+  def associate_googleplaces
     response = Geocoder.search(self.google_places_id).first
     if response.length > 0
+    #   self.googleplaces_url = response.data["url"]
+    #   self.save
       response.data["rating"]
     else
       0
     end
   end
 
-  def fetch_zomato_rating
+  def associate_zomato
     q = self.name.parameterize
     lat = self.google_lat
     lon = self.google_lng
@@ -108,6 +123,10 @@ class Restaurant < ApplicationRecord
     headers = { "user-key": ZOMATO_USER_KEY }
     response = JSON.parse(RestClient.get url, headers)
     if response["restaurants"].length > 0
+      self.zomato_url = response["restaurants"].first["restaurant"]["url"]
+      self.zomato_id = response["restaurants"].first["restaurant"]["id"]
+      self.save
+
       response["restaurants"].first["restaurant"]["user_rating"]["aggregate_rating"]
     else
       0

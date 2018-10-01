@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_01_145657) do
+ActiveRecord::Schema.define(version: 2018_10_01_153321) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,15 @@ ActiveRecord::Schema.define(version: 2018_10_01_145657) do
     t.string "google_lng"
     t.string "google_types"
     t.integer "third_party_rating_id"
+    t.string "phone"
+    t.string "phone_2"
+    t.string "yelp_url"
+    t.string "foursquare_url"
+    t.string "googleplaces_url"
+    t.string "zomato_url"
+    t.string "yelp_id"
+    t.string "foursquare_id"
+    t.string "zomato_id"
   end
 
   create_table "reviews", force: :cascade do |t|

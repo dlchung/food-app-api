@@ -50,9 +50,9 @@ class RestaurantsController < ApplicationController
         google_places_id = place_details.place_id
         google_lat = place_details.latitude
         google_lng = place_details.longitude
+        googleplaces_url = place_details.data["url"]
 
-
-        new_restaurant = Restaurant.create_with(name: name, street: street, city: city, state: state, zipcode: zipcode, google_lat: google_lat, google_lng: google_lng).find_or_create_by(google_places_id: google_places_id)
+        new_restaurant = Restaurant.create_with(name: name, street: street, city: city, state: state, zipcode: zipcode, google_lat: google_lat, google_lng: google_lng, googleplaces_url: googleplaces_url).find_or_create_by(google_places_id: google_places_id)
         third_party_rating = ThirdPartyRating.create
         third_party_rating.googleplaces = place_details.data["rating"]
         third_party_rating.save
