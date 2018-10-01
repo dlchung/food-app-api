@@ -1,6 +1,7 @@
 YELP_API_KEY = Rails.application.credentials.yelp[:api_key]
 FOURSQUARE_CLIENT_ID = Rails.application.credentials.foursquare[:client_id]
 FOURSQUARE_CLIENT_SECRET = Rails.application.credentials.foursquare[:client_secret]
+ZOMATO_USER_KEY = Rails.application.credentials.zomato[:user_key]
 
 class Restaurant < ApplicationRecord
   has_many :reviews
@@ -42,6 +43,8 @@ class Restaurant < ApplicationRecord
         fetch_foursquare_rating
       when "googleplaces"
         fetch_googleplaces_rating
+      when "zomato"
+        fetch_zomato_rating
       else
     end
   end
@@ -57,7 +60,11 @@ class Restaurant < ApplicationRecord
 
     response = JSON.parse(RestClient.get url, headers)
 
-    response["businesses"].first["rating"]
+    if response["businesses"].length > 0
+      response["businesses"].first["rating"]
+    else
+      0
+    end
   end
 
   def fetch_foursquare_rating
@@ -69,19 +76,42 @@ class Restaurant < ApplicationRecord
 
     url = "https://api.foursquare.com/v2/venues/search?client_id=#{FOURSQUARE_CLIENT_ID}&client_secret=#{FOURSQUARE_CLIENT_SECRET}&v=#{v}&ll=#{ll}&intent=#{intent}&limit=#{limit}&name=#{name}"
     response = JSON.parse(RestClient.get url)
-    foursquare_id = response["response"]["venues"].first["id"]
-    # puts "FOURSQUARE_ID"
-    # puts foursquare_id
+    puts response
+    if response["response"]["venues"].length > 0
+      foursquare_id = response["response"]["venues"].first["id"]
 
-    details_url = "https://api.foursquare.com/v2/venues/#{foursquare_id}?client_id=#{FOURSQUARE_CLIENT_ID}&client_secret=#{FOURSQUARE_CLIENT_SECRET}&v=#{v}"
-    details_response = JSON.parse(RestClient.get details_url)
-    # puts details_response["response"]["venue"]["rating"]
-    details_response["response"]["venue"]["rating"]
+      details_url = "https://api.foursquare.com/v2/venues/#{foursquare_id}?client_id=#{FOURSQUARE_CLIENT_ID}&client_secret=#{FOURSQUARE_CLIENT_SECRET}&v=#{v}"
+      details_response = JSON.parse(RestClient.get details_url)
+      details_response["response"]["venue"]["rating"]
+    else
+      0
+    end
   end
 
   def fetch_googleplaces_rating
     response = Geocoder.search(self.google_places_id).first
-    response.data["rating"]
+    if response.length > 0
+      response.data["rating"]
+    else
+      0
+    end
+  end
+
+  def fetch_zomato_rating
+    q = self.name.parameterize
+    lat = self.google_lat
+    lon = self.google_lng
+    count = 1
+    radius = 30
+    sort = "real_distance"
+    url = "https://developers.zomato.com/api/v2.1/search?q=#{q}&lat=#{lat}&lon=#{lon}&radius=#{radius}&count=#{count}&sort=#{sort}"
+    headers = { "user-key": ZOMATO_USER_KEY }
+    response = JSON.parse(RestClient.get url, headers)
+    if response["restaurants"].length > 0
+      response["restaurants"].first["restaurant"]["user_rating"]["aggregate_rating"]
+    else
+      0
+    end
   end
 
 end
