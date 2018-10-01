@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_01_153321) do
+ActiveRecord::Schema.define(version: 2018_10_01_210417) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,10 @@ ActiveRecord::Schema.define(version: 2018_10_01_153321) do
     t.string "yelp_id"
     t.string "foursquare_id"
     t.string "zomato_id"
+    t.index ["google_lat"], name: "index_restaurants_on_google_lat"
+    t.index ["google_lng"], name: "index_restaurants_on_google_lng"
+    t.index ["google_places_id"], name: "index_restaurants_on_google_places_id"
+    t.index ["third_party_rating_id"], name: "index_restaurants_on_third_party_rating_id"
   end
 
   create_table "reviews", force: :cascade do |t|
