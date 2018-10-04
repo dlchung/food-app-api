@@ -30,7 +30,8 @@ class RestaurantsController < ApplicationController
   end
 
   def create_listings(location, radius, type, keyword)
-    url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=#{GOOGLE_PLACES_API_KEY}&location=#{location}&radius=#{radius}&type=#{type}&keyword=#{keyword}"
+    # url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=#{GOOGLE_PLACES_API_KEY}&location=#{location}&radius=#{radius}&type=#{type}&keyword=#{keyword}"
+    url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=#{GOOGLE_PLACES_API_KEY}&location=#{location}&rankby=distance&type=#{type}&keyword=#{keyword}"
     response = JSON.parse(RestClient.get(url))
     restaurant_data = response["results"]
 
@@ -64,7 +65,7 @@ class RestaurantsController < ApplicationController
           googleplaces_url: googleplaces_url,
           phone: phone
         ).find_or_create_by(google_places_id: google_places_id)
-        
+
         third_party_rating = ThirdPartyRating.create
         third_party_rating.googleplaces = place_details.data["rating"]
         third_party_rating.save
