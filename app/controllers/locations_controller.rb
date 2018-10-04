@@ -13,4 +13,8 @@ class LocationsController < ApplicationController
 
     render json: location
   end
+
+  def get_locations
+    render json: Location.all
+  end
 end
