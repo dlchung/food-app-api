@@ -27,7 +27,7 @@ Types::QueryType = GraphQL::ObjectType.define do
   end
 
   field :allRestaurants, !types[Types::RestaurantType] do
-    resolve -> (obj, args, ctx) { Restaurant.all.limit(20).shuffle }
+    resolve -> (obj, args, ctx) {Restaurant.all.shuffle.first(20)}
   end
 
   # field :nearbyRestaurants, !types[Types::RestaurantType] do
