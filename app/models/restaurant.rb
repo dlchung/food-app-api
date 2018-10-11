@@ -69,7 +69,11 @@ class Restaurant < ApplicationRecord
       self.yelp_id = response["businesses"].first["id"]
       self.save
 
-      response["businesses"].first["rating"]
+      if response["businesses"].first["rating"]
+        response["businesses"].first["rating"]
+      else
+        0
+      end
     else
       0
     end
@@ -109,7 +113,11 @@ class Restaurant < ApplicationRecord
     if response.data.length > 0
     #   self.googleplaces_url = response.data["url"]
     #   self.save
-      response.data["rating"]
+      if response.data["rating"]
+        response.data["rating"]
+      else
+        0
+      end
     else
       0
     end
