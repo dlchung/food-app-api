@@ -18,11 +18,15 @@ class RestaurantsController < ApplicationController
     platform = params[:platform]
     restaurant_id = params[:restaurant_id]
 
-    rating = get_restaurant_rating(restaurant_id, platform)
+    data = get_restaurant_rating_url(restaurant_id, platform)
 
-    json_rating = {"#{platform}Rating": rating[platform]}
+    # json_rating = {"#{platform}Rating": rating[platform]}
+    rating_url = {
+      "#{platform}": data
+    }
 
-    render json: json_rating
+    # puts rating_url
+    render json: rating_url
   end
 
   def place_details(place_id)
@@ -81,8 +85,11 @@ class RestaurantsController < ApplicationController
     restaurants
   end
 
-  def get_restaurant_rating(id, platform)
+  def get_restaurant_rating_url(id, platform)
     restaurant = Restaurant.find(id)
-    restaurant.set_third_party_rating(platform)
+    rating = restaurant.set_third_party_rating(platform)
+    platform_url = restaurant["#{platform}_url"]
+
+    {rating: rating["#{platform}"], url: platform_url}
   end
 end
