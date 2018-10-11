@@ -89,13 +89,16 @@ class Restaurant < ApplicationRecord
       foursquare_id = response["response"]["venues"].first["id"]
       self.foursquare_id = foursquare_id
 
-
       details_url = "https://api.foursquare.com/v2/venues/#{foursquare_id}?client_id=#{FOURSQUARE_CLIENT_ID}&client_secret=#{FOURSQUARE_CLIENT_SECRET}&v=#{v}"
       details_response = JSON.parse(RestClient.get details_url)
       self.foursquare_url = details_response["response"]["venue"]["canonicalUrl"]
       self.save
 
-      details_response["response"]["venue"]["rating"]
+      if details_response["response"]["venue"]["rating"]
+        details_response["response"]["venue"]["rating"]
+      else
+        0
+      end
     else
       0
     end
