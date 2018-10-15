@@ -10,7 +10,7 @@ Types::RestaurantType = GraphQL::ObjectType.define do
   field :city, !types.String
   field :state, !types.String
   field :zipcode, !types.String
-  field :google_places_id, types.String
+  field :googleplaces_id, types.String
   field :lat, !types.String
   field :lng, !types.String
   field :google_types, types.String

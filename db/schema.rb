@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_13_194125) do
+ActiveRecord::Schema.define(version: 2018_10_15_215802) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 2018_10_13_194125) do
     t.string "zipcode"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "google_places_id"
+    t.string "googleplaces_id"
     t.string "lat"
     t.string "lng"
     t.string "google_types"
@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(version: 2018_10_13_194125) do
     t.string "yelp_id"
     t.string "foursquare_id"
     t.string "zomato_id"
-    t.index ["google_places_id"], name: "index_restaurants_on_google_places_id"
+    t.index ["googleplaces_id"], name: "index_restaurants_on_googleplaces_id"
     t.index ["lat"], name: "index_restaurants_on_lat"
     t.index ["lng"], name: "index_restaurants_on_lng"
     t.index ["third_party_rating_id"], name: "index_restaurants_on_third_party_rating_id"
