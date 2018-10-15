@@ -1,7 +1,7 @@
 require 'rest-client'
 
-GOOGLE_PLACES_API_KEY = Rails.application.credentials.google[:places][:api_key]
-YELP_API_KEY = Rails.application.credentials.yelp[:api_key]
+# GOOGLE_PLACES_API_KEY = Rails.application.credentials.google[:places][:api_key]
+# YELP_API_KEY = Rails.application.credentials.yelp[:api_key]
 
 class RestaurantsController < ApplicationController
   def nearby

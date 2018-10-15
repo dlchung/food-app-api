@@ -1,3 +1,4 @@
+GOOGLE_PLACES_API_KEY = Rails.application.credentials.google[:places][:api_key]
 YELP_API_KEY = Rails.application.credentials.yelp[:api_key]
 FOURSQUARE_CLIENT_ID = Rails.application.credentials.foursquare[:client_id]
 FOURSQUARE_CLIENT_SECRET = Rails.application.credentials.foursquare[:client_secret]
@@ -62,7 +63,7 @@ class Restaurant < ApplicationRecord
     url = "https://api.yelp.com/v3/businesses/search?term=#{term}&latitude=#{lat}&longitude=#{lng}&limit=#{limit}&categories=#{categories}"
     headers = { :Authorization => "Bearer #{YELP_API_KEY}" }
 
-    response = JSON.parse(RestClient.get url, headers)
+    response = JSON.parse(RestClient.get url headers)
 
     if response["businesses"].length > 0
       self.yelp_url = response["businesses"].first["url"]
@@ -109,12 +110,21 @@ class Restaurant < ApplicationRecord
   end
 
   def associate_googleplaces
-    response = Geocoder.search(self.google_places_id).first
-    if response.data.length > 0
-    #   self.googleplaces_url = response.data["url"]
+    input = self.name.parameterize
+    inputtype = 'textquery'
+    locationbias = "point:#{self.lat},#{self.lng}"
+    fields = 'rating'
+
+    url = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key=#{GOOGLE_PLACES_API_KEY}&input=#{input}&inputtype=#{inputtype}&locationbias=#{locationbias}&fields=#{fields}"
+    response = JSON.parse(RestClient.get url)
+    
+    rating = response['candidates'].first['rating']
+    # response = Geocoder.search(self.google_places_id).first
+    if response['candidates'].length > 0
+    #   self.googleplaces_url = response.data['url']
     #   self.save
-      if response.data["rating"]
-        response.data["rating"]
+      if rating
+        rating
       else
         0
       end
@@ -132,7 +142,7 @@ class Restaurant < ApplicationRecord
     sort = "real_distance"
     url = "https://developers.zomato.com/api/v2.1/search?q=#{q}&lat=#{lat}&lon=#{lon}&radius=#{radius}&count=#{count}&sort=#{sort}"
     headers = { "user-key": ZOMATO_USER_KEY }
-    response = JSON.parse(RestClient.get url, headers)
+    response = JSON.parse(RestClient.get url headers)
     if response["restaurants"].length > 0
       self.zomato_url = response["restaurants"].first["restaurant"]["url"]
       self.zomato_id = response["restaurants"].first["restaurant"]["id"]
