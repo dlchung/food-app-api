@@ -10,9 +10,9 @@ Types::RestaurantType = GraphQL::ObjectType.define do
   field :city, !types.String
   field :state, !types.String
   field :zipcode, !types.String
-  field :google_places_id, !types.String
-  field :google_lat, !types.String
-  field :google_lng, !types.String
+  field :google_places_id, types.String
+  field :lat, !types.String
+  field :lng, !types.String
   field :google_types, types.String
   field :created_at, !types.String
   field :updated_at, !types.String
@@ -23,7 +23,7 @@ Types::RestaurantType = GraphQL::ObjectType.define do
   field :foursquare_url, types.String
   field :googleplaces_url, types.String
   field :zomato_url, types.String
-  field :yelp_id, types.String
+  field :yelp_id, !types.String
   field :foursquare_id, types.String
   field :zomato_id, types.String
 end

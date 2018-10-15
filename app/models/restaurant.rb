@@ -55,8 +55,8 @@ class Restaurant < ApplicationRecord
 
   def associate_yelp
     term = self.name.parameterize
-    lat = self.google_lat
-    lng = self.google_lng
+    lat = self.lat
+    lng = self.lng
     limit = 1
     categories = "restaurants, All"
     url = "https://api.yelp.com/v3/businesses/search?term=#{term}&latitude=#{lat}&longitude=#{lng}&limit=#{limit}&categories=#{categories}"
@@ -81,7 +81,7 @@ class Restaurant < ApplicationRecord
 
   def associate_foursquare
     v = "20180928"
-    ll = "#{self.google_lat},#{self.google_lng}"
+    ll = "#{self.lat},#{self.lng}"
     intent = "match"
     limit = 1
     name = self.name.parameterize
@@ -125,8 +125,8 @@ class Restaurant < ApplicationRecord
 
   def associate_zomato
     q = self.name.parameterize
-    lat = self.google_lat
-    lon = self.google_lng
+    lat = self.lat
+    lon = self.lng
     count = 1
     radius = 30
     sort = "real_distance"
