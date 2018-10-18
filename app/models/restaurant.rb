@@ -12,11 +12,12 @@ class Restaurant < ApplicationRecord
     rating = ''
 
     if self.third_party_rating
-      # puts "RATING OBJ EXISTS"
+      puts "RATING OBJ EXISTS"
       rating = self.third_party_rating
       if !rating[platform] || force == true
         rating[platform] = associate_platform(platform)
         rating.save
+        puts "RATING ATTR MADE"
       end
       # if rating[platform]
       #   # puts "#{platform} RATING EXISTS"
@@ -32,7 +33,7 @@ class Restaurant < ApplicationRecord
 
       self.third_party_rating = rating
       self.save
-      # puts "NEW RATING OBJECT"
+      puts "NEW RATING OBJECT"
     end
 
     rating

@@ -100,7 +100,7 @@ class RestaurantsController < ApplicationController
 
     restaurants = restaurant_data.map do |restaurant|
       # puts restaurant
-      existing_restaurant = Restaurant.find_by(yelp_id: restaurant['yelp_id'])
+      existing_restaurant = Restaurant.find_by(yelp_id: restaurant['id'])
       # puts existing_restaurant
       if !existing_restaurant
         # puts 'DOES NOT EXIST'
@@ -136,7 +136,7 @@ class RestaurantsController < ApplicationController
         new_restaurant.save
         new_restaurant
       else
-        # puts "EXISTS"
+        # puts 'EXISTS'
         existing_restaurant
       end
     end
