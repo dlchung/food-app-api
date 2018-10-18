@@ -33,7 +33,7 @@ gem 'fast_jsonapi'
 gem 'graphql'
 gem 'devise'
 gem 'rest-client'
-gem 'geocoder'
+# gem 'geocoder'
 # gem 'yelp', require: 'yelp'
 # gem 'yelp-fusion', '0.2.1-beta'
 
