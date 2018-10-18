@@ -1,9 +1,3 @@
-GOOGLE_PLACES_API_KEY = Rails.application.credentials.google[:places][:api_key]
-YELP_API_KEY = Rails.application.credentials.yelp[:api_key]
-FOURSQUARE_CLIENT_ID = Rails.application.credentials.foursquare[:client_id]
-FOURSQUARE_CLIENT_SECRET = Rails.application.credentials.foursquare[:client_secret]
-ZOMATO_USER_KEY = Rails.application.credentials.zomato[:user_key]
-
 class Restaurant < ApplicationRecord
   has_many :reviews
   belongs_to :third_party_rating, required: false
@@ -12,12 +6,12 @@ class Restaurant < ApplicationRecord
     rating = ''
 
     if self.third_party_rating
-      puts "RATING OBJ EXISTS"
+      # puts "RATING OBJ EXISTS"
       rating = self.third_party_rating
       if !rating[platform] || force == true
         rating[platform] = associate_platform(platform)
         rating.save
-        puts "RATING ATTR MADE"
+        # puts "RATING ATTR MADE"
       end
       # if rating[platform]
       #   # puts "#{platform} RATING EXISTS"
@@ -33,7 +27,7 @@ class Restaurant < ApplicationRecord
 
       self.third_party_rating = rating
       self.save
-      puts "NEW RATING OBJECT"
+      # puts "NEW RATING OBJECT"
     end
 
     rating

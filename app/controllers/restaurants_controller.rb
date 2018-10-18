@@ -14,7 +14,7 @@ class RestaurantsController < ApplicationController
     limit = params[:limit]
 
     # restaurants = self.create_listings(location, radius, type, keyword)
-    restaurants = self.create_listings(lat, lng, radius, type, keyword, limit)
+    restaurants = create_listings(lat, lng, radius, type, keyword, limit)
 
     render json: restaurants
   end
@@ -89,6 +89,8 @@ class RestaurantsController < ApplicationController
   #
   #   restaurants
   # end
+
+  private
 
   def create_listings(lat, lng, radius, type, keyword, limit)
     # url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=#{GOOGLE_PLACES_API_KEY}&location=#{location}&radius=#{radius}&type=#{type}&keyword=#{keyword}"
