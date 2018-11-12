@@ -80,7 +80,6 @@ test:
 #
 production:
   <<: *default
-  # url: <%= Rails.application.credentials[:database][:url] %>
-  database: <%= Rails.application.credentials[:database][:name] %>
-  username: <%= Rails.application.credentials[:database][:user] %>
-  password: <%= Rails.application.credentials[:database][:password] %>
+  database: food-app-api_production
+  username: food-app-api
+  password: <%= ENV['FOOD-APP-API_DATABASE_PASSWORD'] %>
