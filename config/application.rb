@@ -34,7 +34,8 @@ module FoodAppApi
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins Rails.application.config.allowed_cors_origins
+        # origins Rails.application.config.allowed_cors_origins
+        origins '*'
 
         resource '*', 
           headers: :any, 
