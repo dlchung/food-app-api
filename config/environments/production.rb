@@ -84,5 +84,5 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # CORS
-  config.allowed_cors_origins = ["http://projectyums.herokuapp.com, https://projectyums.herokuapp.com"]
+  # config.allowed_cors_origins = ["http://projectyums.herokuapp.com, https://projectyums.herokuapp.com"]
 end
